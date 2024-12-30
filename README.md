@@ -1,90 +1,79 @@
-# MathWorks Mini Drone Competition 2024: Team Drone Landers
+# MathWorks Minidrone Competition 2024  
+**Team Name:** Drone Landers  
 
-Welcome to the repository for **Team Drone Landers**, participants in the MathWorks Mini Drone Competition 2024. Our project focuses on the development of an autonomous minidrone using **Model-Based Design (MBD)** in Simulink to perform complex line-following tasks. Below, you'll find all the essential details of our project.
-
----
-
-## Team Members
-- **Parthibanraj P** (23BMC070)
-- **Gopinath Pandian N** (23BMC016)
-- **Manikandan M** (23BCS082)
-- **Pradeepraaj S** (23BEC128)
-
-### Institution
-**Kumaraguru College of Technology**  
-Chinnavedampatti, Coimbatore - 641049.
-
-**Faculty Advisor:**  
-Dr. J. Darshan Kumar  
-Assistant Professor, Aeronautical Engineering  
+Welcome to our project repository for the MathWorks Minidrone Competition 2024! This repository contains all the essential information, models, and algorithms used for developing our autonomous minidrone capable of line-following.  
 
 ---
 
-## Problem Statement
-Develop an autonomous minidrone capable of following a black line on a white background with precision. The drone must maintain a stable trajectory, navigate through complex line configurations, and avoid obstacles. The project leverages **Simulink** for algorithm development, simulation, and hardware integration.
+## Problem Statement  
+Develop an autonomous minidrone capable of accurately following a black line on a white background. The drone should maintain a stable trajectory while navigating through various line configurations and obstacles using Model-Based Design (MBD) in Simulink for algorithm development, simulation, and hardware integration.  
 
 ---
 
-## Abstract
-This project focuses on creating an autonomous minidrone equipped with a robust line-following algorithm. Using **image processing**, **state estimation**, and **control strategies**, the drone can navigate autonomously while maintaining stability. The project highlights the use of **Model-Based Design (MBD)** for rapid prototyping and efficient testing.
+## Abstract  
+This project demonstrates the development of an autonomous line-following minidrone using Model-Based Design. Key elements include image processing for line detection, state estimation for position and orientation tracking, and robust control strategies for maintaining stable trajectories. Using Simulink, the line-following algorithm was designed, simulated, and successfully tested in hardware.  
+
+**Keywords:** Autonomous minidrone, Line following, Simulink, Image processing, Algorithm development.  
 
 ---
 
-## Introduction
-Autonomous drones are revolutionizing various industries such as agriculture, surveillance, and disaster management. This project explores the fundamental task of line following, implemented on a Parrot Mambo Minidrone using Simulink. The drone employs real-time image processing and control systems for navigation and obstacle avoidance.
+## Line Following Algorithm  
+
+### **Overview**  
+The line-following algorithm is the heart of this project, enabling the drone to detect and follow a line with precision. Using advanced image processing techniques and control systems, the algorithm ensures smooth navigation along the designated path.  
 
 ---
 
-## Competition Overview
-The MathWorks Mini Drone Competition introduces participants to **Model-Based Design** using Simulink.  
+### **Algorithm Implementation Steps**  
 
-### Rounds:
-1. **Simulation Round:** Teams design and refine their minidrone algorithms in Simulink.  
-2. **Simulation and Hardware Deployment Round:** Qualified teams deploy their models on Parrot Mambo Minidrone hardware using the Simulink Support Package.
+1. **Image Processing**  
+   - **Image Acquisition:** Captures live feed from the minidrone's onboard camera.  
+   - **RGB Channel Separation:** Splits the image into Red, Green, and Blue channels for processing.  
+   - **Canny Edge Detection:** Identifies edges in the image, focusing on the black line.  
+   - **Hough Line Transform:** Detects and extracts the line's orientation by finding its boundaries.  
 
----
+2. **Heading Calculation**  
+   - The algorithm computes the line's central axis using the first two lines from the Hough Transform.  
+   - Averages coordinates to generate a guiding line.  
+   - Corrects heading errors to maintain stability along the path.  
 
-## Technical Details
+3. **Advanced ROI Method**  
+   - Regions of Interest (ROIs) are defined to filter out irrelevant line segments.  
+   - The drone adjusts its orientation based on line intersection within these ROIs.  
+   - Past heading information is utilized to enhance decision-making, especially in scenarios involving sharp turns or complex paths.  
 
-### Configuration
-- **Software Used:** MATLAB Simulink  
-- **Hardware Platform:** Parrot Mambo Minidrone  
-- **Control System:** PID-based position and orientation control  
-- **Key Functionalities:**  
-  - Line detection using image processing  
-  - Stable trajectory maintenance  
-  - Autonomous decision-making  
-
----
-
-### Flight Controller System
-The flight control system is responsible for:  
-- **Attitude Control:** Maintaining drone orientation.  
-- **Position Control:** Ensuring accurate movement along the path.  
-- **Obstacle Avoidance:** Preventing collisions using sensors.  
-- **Mission Execution:** Following predefined flight paths autonomously.  
+4. **Circle Detection and Landing**  
+   - At the end of the line, the drone detects a circular marker using the `imfindcircles()` function.  
+   - The drone identifies the center of the circle and aligns its position.  
+   - Landing is executed only when the circle is fully within the ROI to avoid false positives.  
 
 ---
 
-### Image Processing System
-The image processing subsystem includes:  
-1. **Image Acquisition:** Captures real-time RGB frames from the drone's camera.  
-2. **Image Conversion:** Converts images into analyzable formats.  
-3. **Feature Extraction:** Identifies line boundaries using Canny filters and Hough transform.  
-4. **Decision Logic:** Determines navigation adjustments based on detected features.  
+### **Algorithm Insights**  
+#### First Method: Centralized Mean Line Calculation  
+- Utilizes two primary lines detected by the Hough Transform.  
+- Finds the mean of the two lines for determining the central path.  
+- Works well for straight-line paths but has limitations during sharp turns.  
+
+#### Second Method: Enhanced ROI-Based Heading  
+- Overcomes the limitations of the first method by dynamically adjusting ROIs.  
+- Leverages bitmap data of the detected line to evaluate the region overlap.  
+- Provides improved heading stability and adaptability in challenging conditions.  
+
+#### Circle Detection for Landing  
+- Incorporates MATLAB's built-in `imfindcircles()` for accurate circle identification.  
+- Combines circle detection with ROI validation for safe and precise landings.  
 
 ---
 
-## Line Following Algorithm
-The drone uses a dual-strategy approach for line tracking:  
-1. **Hough Line Transform:** Detects edges and calculates a central path for the drone.  
-2. **Region of Interest (ROI):** Identifies intersections of the line with predefined ROI for stable heading adjustments.  
-
-A separate function identifies circular markers for precise landing, ensuring that the drone only lands when aligned correctly.
+## Key Features  
+- Robust PID control ensures smooth and stable movement.  
+- High-performance image processing allows accurate line detection in real time.  
+- Dynamic obstacle avoidance incorporated through visual data.  
 
 ---
 
-## Simulation
+## Simulation  
 Simulink-based simulation validates the drone's performance in a controlled environment. Key features include:  
 - Real-time image processing  
 - Trajectory stability tests  
@@ -92,7 +81,7 @@ Simulink-based simulation validates the drone's performance in a controlled envi
 
 ---
 
-## Arena Details
+## Arena Details  
 The competition arena consists of:  
 - Black line on a white surface for navigation  
 - Circular markers for landing zones  
@@ -100,7 +89,15 @@ The competition arena consists of:
 
 ---
 
-## Results
+## Flight Controller System  
+The flight control system is the backbone of the minidrone's operation, encompassing the following:  
+- **Attitude Control:** Maintains orientation stability.  
+- **Position Control:** Keeps the drone on the desired path.  
+- **Mission Execution:** Accomplishes pre-programmed tasks, including landing.  
+
+---
+
+## Results  
 The project successfully demonstrated:  
 - Accurate line tracking using advanced image processing.  
 - Stable trajectory even in complex configurations.  
@@ -108,15 +105,23 @@ The project successfully demonstrated:
 
 ---
 
-## Conclusion
-This project showcased the potential of Model-Based Design for autonomous drone development. The use of Simulink enabled rapid prototyping, effective simulation, and successful deployment on hardware. This approach can be extended to other autonomous drone applications.
+## Conclusion  
+This project showcased the potential of Model-Based Design for autonomous drone development. The use of Simulink enabled rapid prototyping, effective simulation, and successful deployment on hardware. This approach can be extended to other autonomous drone applications.  
 
 ---
 
-## References
+## References  
 1. MathWorks Documentation: [Simulink for Minidrones](https://www.mathworks.com/products/simulink.html)  
 2. Parrot Mambo Minidrone Support Package: [MathWorks Support](https://www.mathworks.com/hardware-support/parrot.html)  
 3. Image Processing Toolbox: [MathWorks Documentation](https://www.mathworks.com/products/image.html)  
+
+---
+
+## How to Run  
+1. Clone the repository to your local machine.  
+   ```bash
+   git clone https://github.com/max-mani/MinidroneCompetition.git  
+   cd MinidroneCompetition  
 
 ---
 
